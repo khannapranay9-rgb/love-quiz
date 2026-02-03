@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Just One Little Quiz ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom, #ffdde1, #ee9ca7);
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  background: #fff;
+  padding: 25px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 360px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+button {
+  width: 100%;
+  margin: 8px 0;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: #ff6f91;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #ff4f7a;
+}
+
+.feedback {
+  margin-top: 10px;
+  font-weight: bold;
+  min-height: 24px;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card">
+  <h2 id="question"></h2>
+  <div id="options"></div>
+  <div class="feedback" id="feedback"></div>
+</div>
+
+<script>
+const quiz = [
+  {
+    q: "Where did we first meet?",
+    options: [
+      "At zudio ☕",
+      "Through friends 👥",
+      "Online 📱",
+      "You don’t remember 😜"
+    ],
+    correct: 0,
+    msg: "Of course you remember 🥰 That moment changed everything."
+  },
+  {
+    q: "Who fell first?",
+    options: [
+      "You 😌",
+      "Me ❤️",
+      "Both together ✨",
+      "Still falling 😏"
+    ],
+    correct: 1,
+    msg: "Guilty… but I’d do it all over again."
+  },
+  {
+    q: "My favorite thing about you?",
+    options: [
+      "Your smile 😊",
+      "Your voice 🎵",
+      "Your eyes 👀",
+      "All of the above 💖"
+    ],
+    correct: 1,
+    msg: "Your voice damn boi 🥵"
+  },
+  {
+    q: "Our perfect date would be?",
+    options: [
+      "Long drive n fun outdoor 🚗",
+      "Movie night 🎬",
+      "Dinner & Balcony fun 🙊",
+      "Food beach n fun 🏖️"
+    ],
+    correct: 2,
+    msg: "Spicy choice 😏🔥"
+  },
+  {
+    q: "Will you go on a date with me?",
+    options: [
+      "Yes 💕",
+      "Obviously yes 😍",
+      "I thought we already are 😏",
+      "Say yes already 😄"
+    ],
+    correct: 1,
+    msg: "That’s all I wanted to hear ❤️"
+  }
+];
+
+let index = 0;
+let musicStarted = false;
+
+const qEl = document.getElementById("question");
+const optEl = document.getElementById("options");
+const fbEl = document.getElementById("feedback");
+const music = document.getElementById("bgMusic");
+
+function loadQuestion() {
+  if (index >= quiz.length) {
+    qEl.innerHTML = "💌 Date Proposal 💌";
+    optEl.innerHTML = `
+      <p>
+        Sooo… this weekend?<br><br>
+        Just you, me, and some unforgettable memories ❤️✨
+      </p>`;
+    fbEl.textContent = "";
+    return;
+  }
+
+  qEl.textContent = quiz[index].q;
+  optEl.innerHTML = "";
+  fbEl.textContent = "";
+
+  quiz[index].options.forEach((opt, i) => {
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(i);
+    optEl.appendChild(btn);
+  });
+}
+
+function checkAnswer(i) {
+  if (!musicStarted) {
+    music.play();
+    musicStarted = true;
+  }
+
+  if (i === quiz[index].correct) {
+    fbEl.textContent = "✅ " + quiz[index].msg;
+    setTimeout(() => {
+      index++;
+      loadQuestion();
+    }, 1200);
+  } else {
+    fbEl.textContent = "😤😡 Wrong! Try again.";
+  }
+}
+
+loadQuestion();
+</script>
+</body>
+</html>
